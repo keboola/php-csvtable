@@ -6,18 +6,17 @@ use Keboola\Csv\CsvFile;
 use Keboola\Temp\Temp;
 
 class Table extends CsvFile {
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $attributes = array();
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $primaryKey;
 
 	/** @var Temp */
 	protected $temp;
+
+	/** @var string */
+	protected $name;
 
 	/**
 	 * @brief Create a CSV file, and optionally set its header
@@ -27,8 +26,10 @@ class Table extends CsvFile {
 	 * @param \Syrup\ComponentBundle\Filesystem\Temp $temp
 	 * @return \Keboola\ExtractorBundle\Common\Table
 	 */
-	public static function create($suffix = '', array $header = [], Temp $temp = null)
+	public static function create($name = '', array $header = [], Temp $temp = null)
 	{
+		$this->name = $name;
+
 		if ($temp == null) {
 			$temp = new Temp('csv-table');
 		}
@@ -85,5 +86,10 @@ class Table extends CsvFile {
 
 	public function setTemp(Temp $temp) {
 		$this->temp = $temp;
+	}
+
+	public function getName()
+	{
+		return $this->name;
 	}
 }
