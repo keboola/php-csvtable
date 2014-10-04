@@ -5,6 +5,9 @@ namespace Keboola\CsvTable;
 use Keboola\Csv\CsvFile;
 use Keboola\Temp\Temp;
 
+/**
+ * CsvFile class with attribute&primaryKey extensions
+ */
 class Table extends CsvFile {
 	/** @var array */
 	protected $attributes = array();
@@ -28,7 +31,6 @@ class Table extends CsvFile {
 	 */
 	public static function create($name = '', array $header = [], Temp $temp = null)
 	{
-		$this->name = $name;
 
 		if ($temp == null) {
 			$temp = new Temp('csv-table');
@@ -43,6 +45,8 @@ class Table extends CsvFile {
 
 		// Preserve Temp to prevent deletion!
 		$csvFile->setTemp($temp);
+
+		$csvFile->name = $name;
 
 		return $csvFile;
 	}
@@ -91,5 +95,9 @@ class Table extends CsvFile {
 	public function getName()
 	{
 		return $this->name;
+	}
+
+	public function setName($name) {
+		$this->name = $name;
 	}
 }
