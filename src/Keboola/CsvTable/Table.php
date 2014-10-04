@@ -21,7 +21,7 @@ class Table extends CsvFile {
 	/**
 	 * @brief Create a CSV file, and optionally set its header
 	 *
-	 * @param string $suffix File name Suffix
+	 * @param string $name File name Suffix
 	 * @param array $header A header line to write into created file
 	 * @param \Syrup\ComponentBundle\Filesystem\Temp $temp
 	 * @return \Keboola\ExtractorBundle\Common\Table
@@ -34,7 +34,7 @@ class Table extends CsvFile {
 			$temp = new Temp('csv-table');
 		}
 
-		$tmpFile = $temp->createTmpFile($suffix);
+		$tmpFile = $temp->createTmpFile($name);
 		$csvFile = new self($tmpFile->getPathname());
 		// Write header
 		if (!empty($header)) {
