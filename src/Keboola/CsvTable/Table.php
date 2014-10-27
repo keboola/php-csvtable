@@ -29,7 +29,7 @@ class Table extends CsvFile {
 	 * @param \Syrup\ComponentBundle\Filesystem\Temp $temp
 	 * @return \Keboola\ExtractorBundle\Common\Table
 	 */
-	public static function create($name = '', array $header = [], Temp $temp = null)
+	public static function create($name = '', array $header = array(), Temp $temp = null)
 	{
 
 		if ($temp == null) {
