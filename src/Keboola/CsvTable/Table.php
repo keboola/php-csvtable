@@ -29,8 +29,8 @@ class Table extends CsvFile {
 	 *
 	 * @param string $name File name Suffix
 	 * @param array $header A header line to write into created file
-	 * @param \Syrup\ComponentBundle\Filesystem\Temp $temp
-	 * @return \Keboola\ExtractorBundle\Common\Table
+	 * @param \Keboola\Temp\Temp $temp
+	 * @return \Keboola\CsvTable\Table
 	 */
 	public static function create($name = '', array $header = array(), Temp $temp = null)
 	{
@@ -73,6 +73,31 @@ class Table extends CsvFile {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+		return $this->attributes;
+	}
+
+	/**
+	 * @brief Set incremental property
+	 * @param bool $incremental
+	 */
+	public function setIncremental($incremental)
+	{
+		$this->incremental = (bool) $incremental;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIncremental()
+	{
+		return (bool) $this->incremental;
+	}
+
+	/**
 	 * @brief Set a primaryKey (to combine multiple columns, use comma separated col names)
 	 * @param string $primaryKey
 	 */
@@ -81,36 +106,33 @@ class Table extends CsvFile {
 		$this->primaryKey = $primaryKey;
 	}
 
-	public function setIncremental($bool)
-	{
-		$this->incremental = (bool) $bool;
-	}
-
-	public function getIncremental()
-	{
-		return $this->incremental;
-	}
-
-	public function getAttributes()
-	{
-		return $this->attributes;
-	}
-
+	/**
+	 * @return string
+	 */
 	public function getPrimaryKey()
 	{
 		return $this->primaryKey;
 	}
 
-	public function setTemp(Temp $temp) {
-		$this->temp = $temp;
+	/**
+	 * @param string
+	 */
+	public function setName($name) {
+		$this->name = $name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
 
-	public function setName($name) {
-		$this->name = $name;
+	/**
+	 * @param Keboola\Temp\Temp
+	 */
+	public function setTemp(Temp $temp) {
+		$this->temp = $temp;
 	}
 }
