@@ -21,6 +21,9 @@ class Table extends CsvFile {
 	/** @var string */
 	protected $name;
 
+	/** @var bool */
+	protected $incremental;
+
 	/**
 	 * @brief Create a CSV file, and optionally set its header
 	 *
@@ -76,6 +79,16 @@ class Table extends CsvFile {
 	public function setPrimaryKey($primaryKey)
 	{
 		$this->primaryKey = $primaryKey;
+	}
+
+	public function setIncremental($bool)
+	{
+		$this->incremental = (bool) $bool;
+	}
+
+	public function getIncremental()
+	{
+		return $this->incremental;
 	}
 
 	public function getAttributes()
