@@ -6,7 +6,7 @@ use Keboola\Csv\CsvFile;
 use Keboola\Temp\Temp;
 
 /**
- * CsvFile class with attribute&primaryKey extensions
+ * CsvFile class with attribute, primaryKey, incremental and name properties
  */
 class Table extends CsvFile {
 	/** @var array */
@@ -22,7 +22,7 @@ class Table extends CsvFile {
 	protected $name;
 
 	/** @var bool */
-	protected $incremental;
+	protected $incremental = null;
 
 	/**
 	 * @brief Create a CSV file, and optionally set its header
@@ -55,7 +55,7 @@ class Table extends CsvFile {
 	}
 
 	/**
-	 * @brief Resets attributes to key:value pairs from $attributes
+	 * @brief Resets all attributes to key:value pairs from $attributes
 	 * @param array $attributes
 	 */
 	public function setAttributes(array $attributes)
@@ -65,6 +65,7 @@ class Table extends CsvFile {
 
 	/**
 	 * @brief Adds attributes as key:value pairs from $attributes
+	 * Existing attributes will be replaced with new values
 	 * @param array $attributes
 	 */
 	public function addAttributes(array $attributes)
@@ -94,7 +95,7 @@ class Table extends CsvFile {
 	 */
 	public function getIncremental()
 	{
-		return (bool) $this->incremental;
+		return $this->incremental;
 	}
 
 	/**
