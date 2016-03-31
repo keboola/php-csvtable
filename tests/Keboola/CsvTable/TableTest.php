@@ -11,7 +11,6 @@ use Keboola\CsvTable\Table;
 
 class TempTest extends \PHPUnit_Framework_TestCase
 {
-
 	public function testCreate()
 	{
 		/** @var \SplFileInfo $file */
@@ -31,4 +30,19 @@ class TempTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	public function testPrimaryKey()
+	{
+        $table = Table::create('pk', ['id', 'user', 'data']);
+        $table->setPrimaryKey('id,user');
+        $this->assertEquals('id,user', $table->getPrimaryKey());
+        $this->assertEquals(['id', 'user'], $table->getPrimaryKey(true));
+	}
+
+	public function testPrimaryKeyArray()
+	{
+        $table = Table::create('pk', ['id', 'user', 'data']);
+        $table->setPrimaryKey(['id', 'user']);
+        $this->assertEquals('id,user', $table->getPrimaryKey());
+        $this->assertEquals(['id', 'user'], $table->getPrimaryKey(true));
+	}
 }

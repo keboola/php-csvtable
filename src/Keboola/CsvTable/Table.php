@@ -12,7 +12,7 @@ class Table extends CsvFile {
 	/** @var array */
 	protected $attributes = array();
 
-	/** @var string */
+	/** @var array */
 	protected $primaryKey;
 
 	/** @var Temp */
@@ -99,20 +99,25 @@ class Table extends CsvFile {
 	}
 
 	/**
-	 * @brief Set a primaryKey (to combine multiple columns, use comma separated col names)
-	 * @param string $primaryKey
+	 * @brief Set a primaryKey (to combine multiple columns, use array or comma separated col names)
+	 * @param string|array $primaryKey
 	 */
 	public function setPrimaryKey($primaryKey)
-	{
+    {
+        if (!is_array($primaryKey)) {
+            $primaryKey = explode(',', $primaryKey);
+        }
+
 		$this->primaryKey = $primaryKey;
 	}
 
 	/**
+     * @param bool $asArray
 	 * @return string
 	 */
-	public function getPrimaryKey()
+	public function getPrimaryKey($asArray = false)
 	{
-		return $this->primaryKey;
+		return $asArray ? $this->primaryKey : join(',', $this->primaryKey);
 	}
 
 	/**
