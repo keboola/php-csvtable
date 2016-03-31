@@ -117,7 +117,13 @@ class Table extends CsvFile {
 	 */
 	public function getPrimaryKey($asArray = false)
 	{
-		return $asArray ? $this->primaryKey : join(',', $this->primaryKey);
+		return empty($this->primaryKey)
+            ? null
+            : (
+                $asArray
+                ? $this->primaryKey
+                : join(',', $this->primaryKey)
+            );
 	}
 
 	/**

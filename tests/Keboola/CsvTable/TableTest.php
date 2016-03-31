@@ -45,4 +45,10 @@ class TempTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('id,user', $table->getPrimaryKey());
         $this->assertEquals(['id', 'user'], $table->getPrimaryKey(true));
 	}
+
+	public function testPrimaryKeyEmpty()
+	{
+        $table = Table::create('pk', ['id', 'user', 'data']);
+        $this->assertNull($table->getPrimaryKey());
+    }
 }
