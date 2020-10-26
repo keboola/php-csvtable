@@ -28,14 +28,14 @@ class Table extends CsvWriter {
 	/** @var array */
 	protected $header = [];
 
-	public function __construct(string $name, array $header = [], Temp $temp = null, $delimiter = CsvOptions::DEFAULT_DELIMITER, $enclosure = CsvOptions::DEFAULT_ENCLOSURE, $lineBreak = "\n")
+	public function __construct(string $name, array $header = [], bool $writeHeader = true, Temp $temp = null, $delimiter = CsvOptions::DEFAULT_DELIMITER, $enclosure = CsvOptions::DEFAULT_ENCLOSURE, $lineBreak = "\n")
     {
         $this->temp = $temp ? $temp : new Temp('csv-table');
         $this->header = $header;
         $tmpFile = $this->temp ->createTmpFile($name);
         parent::__construct($tmpFile->getPathname(), $delimiter, $enclosure, $lineBreak);
 
-        if (!empty($this->header)) {
+        if (!empty($this->header) && $writeHeader) {
             $this->writeRow($this->header);
         }
 
