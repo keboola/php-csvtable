@@ -24,6 +24,20 @@ class TempTest extends TestCase
 		);
 	}
 
+    public function testDontWriteHeader()
+    {
+        $table = new Table('filename_suffix', ['first_col', 'second_col'], false);
+        $this->assertFileExists($table->getPathName());
+        $this->assertEquals('', file_get_contents($table->getPathName()));
+        $this->assertEquals(
+            array (
+                0 => 'first_col',
+                1 => 'second_col',
+            ),
+            $table->getHeader()
+        );
+    }
+
 	public function testPrimaryKey()
 	{
         $table = new Table('pk', ['id', 'user', 'data']);
