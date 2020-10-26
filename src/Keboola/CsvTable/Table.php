@@ -2,13 +2,14 @@
 
 namespace Keboola\CsvTable;
 
-use Keboola\Csv\CsvFile;
+use Keboola\Csv\CsvOptions;
+use Keboola\Csv\CsvWriter;
 use Keboola\Temp\Temp;
 
 /**
  * CsvFile class with attribute, primaryKey, incremental and name properties
  */
-class Table extends CsvFile {
+class Table extends CsvWriter {
 	/** @var array */
 	protected $attributes = array();
 
@@ -24,76 +25,59 @@ class Table extends CsvFile {
 	/** @var bool */
 	protected $incremental = null;
 
-	/**
-	 * @brief Create a CSV file, and optionally set its header
-	 *
-	 * @param string $name File name Suffix
-	 * @param array $header A header line to write into created file
-	 * @param \Keboola\Temp\Temp $temp
-	 * @return \Keboola\CsvTable\Table
-	 */
-	public static function create($name = '', array $header = array(), Temp $temp = null)
-	{
+	/** @var array */
+	protected $header = [];
 
-		if ($temp == null) {
-			$temp = new Temp('csv-table');
-		}
+	public function __construct(string $name, array $header = [], Temp $temp = null, $delimiter = CsvOptions::DEFAULT_DELIMITER, $enclosure = CsvOptions::DEFAULT_ENCLOSURE, $lineBreak = "\n")
+    {
+        $this->temp = $temp ? $temp : new Temp('csv-table');
+        $this->header = $header;
+        $tmpFile = $this->temp ->createTmpFile($name);
+        parent::__construct($tmpFile->getPathname(), $delimiter, $enclosure, $lineBreak);
 
-		$tmpFile = $temp->createTmpFile($name);
-		$csvFile = new self($tmpFile->getPathname());
-		// Write header
-		if (!empty($header)) {
-			$csvFile->writeRow($header);
-		}
+        if (!empty($this->header)) {
+            $this->writeRow($this->header);
+        }
 
-		// Preserve Temp to prevent deletion!
-		$csvFile->setTemp($temp);
+    }
 
-		$csvFile->name = $name;
+    public function __destruct()
+    {
+        parent::__destruct();
+        $this->temp->remove();
+    }
 
-		return $csvFile;
-	}
+    public function getPathName(): string
+    {
+        return $this->fileName;
+    }
 
-	/**
-	 * @brief Resets all attributes to key:value pairs from $attributes
-	 * @param array $attributes
-	 */
-	public function setAttributes(array $attributes)
+    public function getHeader(): array
+    {
+        return $this->header;
+    }
+
+	public function setAttributes(array $attributes): void
 	{
 		$this->attributes = $attributes;
 	}
 
-	/**
-	 * @brief Adds attributes as key:value pairs from $attributes
-	 * Existing attributes will be replaced with new values
-	 * @param array $attributes
-	 */
-	public function addAttributes(array $attributes)
+	public function addAttributes(array $attributes): void
 	{
 		$this->attributes = array_replace($this->attributes, $attributes);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getAttributes()
+	public function getAttributes(): array
 	{
 		return $this->attributes;
 	}
 
-	/**
-	 * @brief Set incremental property
-	 * @param bool $incremental
-	 */
-	public function setIncremental($incremental)
+	public function setIncremental(bool $incremental): void
 	{
 		$this->incremental = (bool) $incremental;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getIncremental()
+	public function getIncremental(): bool
 	{
 		return $this->incremental;
 	}
@@ -102,7 +86,7 @@ class Table extends CsvFile {
 	 * @brief Set a primaryKey (to combine multiple columns, use array or comma separated col names)
 	 * @param string|array $primaryKey
 	 */
-	public function setPrimaryKey($primaryKey)
+	public function setPrimaryKey($primaryKey): void
     {
         if (!is_array($primaryKey)) {
             $primaryKey = explode(',', $primaryKey);
@@ -113,9 +97,9 @@ class Table extends CsvFile {
 
 	/**
      * @param bool $asArray
-	 * @return string
+	 * @return string|array
 	 */
-	public function getPrimaryKey($asArray = false)
+	public function getPrimaryKey(bool $asArray = false)
 	{
 		return empty($this->primaryKey)
             ? null
@@ -126,25 +110,12 @@ class Table extends CsvFile {
             );
 	}
 
-	/**
-	 * @param string
-	 */
-	public function setName($name) {
+	public function setName(string $name): void {
 		$this->name = $name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
-	}
-
-	/**
-	 * @param Keboola\Temp\Temp
-	 */
-	public function setTemp(Temp $temp) {
-		$this->temp = $temp;
 	}
 }
