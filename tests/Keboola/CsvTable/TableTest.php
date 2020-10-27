@@ -8,7 +8,7 @@ class TempTest extends TestCase
 {
 	public function testCreate()
 	{
-		$table = new Table('filename_suffix', ['first_col', 'second_col']);
+		$table = new Table('filename', ['first_col', 'second_col']);
 		$this->assertFileExists($table->getPathName());
 		$this->assertEquals(
 			'"first_col","second_col"
@@ -22,6 +22,7 @@ class TempTest extends TestCase
 			),
 			$table->getHeader()
 		);
+        $this->assertEquals('filename', $table->getName());
 	}
 
     public function testDontWriteHeader()

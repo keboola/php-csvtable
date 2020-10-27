@@ -30,6 +30,7 @@ class Table extends CsvWriter {
 
 	public function __construct(string $name, array $header = [], bool $writeHeader = true, Temp $temp = null, $delimiter = CsvOptions::DEFAULT_DELIMITER, $enclosure = CsvOptions::DEFAULT_ENCLOSURE, $lineBreak = "\n")
     {
+        $this->name = $name;
         $this->temp = $temp ? $temp : new Temp('csv-table');
         $this->header = $header;
         $tmpFile = $this->temp ->createTmpFile($name);
