@@ -61,10 +61,18 @@ class TableTest extends TestCase
         $this->assertNull($table->getPrimaryKey());
     }
 
-    public function testIncremental()
+    public function testIncrementalNoValue()
     {
         $table = new Table('pk', ['id', 'user', 'data']);
-        $this->assertFalse($table->getIncremental());
+
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Incremental is not set.');
+        $table->getIncremental();
+    }
+
+    public function testIncrementalSetValue()
+    {
+        $table = new Table('pk', ['id', 'user', 'data']);
 
         $table->setIncremental(true);
         $this->assertTrue($table->getIncremental());
