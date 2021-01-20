@@ -4,7 +4,7 @@ namespace Keboola\Temp\Tests;
 use Keboola\CsvTable\Table;
 use PHPUnit\Framework\TestCase;
 
-class TempTest extends TestCase
+class TableTest extends TestCase
 {
 	public function testCreate()
 	{
@@ -59,5 +59,28 @@ class TempTest extends TestCase
 	{
         $table = new Table('pk', ['id', 'user', 'data']);
         $this->assertNull($table->getPrimaryKey());
+    }
+
+    public function testIncrementalNoValue()
+    {
+        $table = new Table('pk', ['id', 'user', 'data']);
+        $this->assertFalse($table->isIncrementalSet());
+
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Incremental is not set.');
+        $table->getIncremental();
+    }
+
+    public function testIncrementalSetValue()
+    {
+        $table = new Table('pk', ['id', 'user', 'data']);
+
+        $table->setIncremental(true);
+        $this->assertTrue($table->isIncrementalSet());
+        $this->assertTrue($table->getIncremental());
+
+        $table->setIncremental(false);
+        $this->assertTrue($table->isIncrementalSet());
+        $this->assertFalse($table->getIncremental());
     }
 }

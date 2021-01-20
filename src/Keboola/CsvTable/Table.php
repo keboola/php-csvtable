@@ -22,7 +22,7 @@ class Table extends CsvWriter {
 	/** @var string */
 	protected $name;
 
-	/** @var bool */
+	/** @var bool|null */
 	protected $incremental = null;
 
 	/** @var array */
@@ -75,11 +75,20 @@ class Table extends CsvWriter {
 
 	public function setIncremental(bool $incremental): void
 	{
-		$this->incremental = (bool) $incremental;
+		$this->incremental = $incremental;
 	}
+
+	public function isIncrementalSet(): bool
+    {
+        return $this->incremental !== null;
+    }
 
 	public function getIncremental(): bool
 	{
+	    if ($this->incremental === null) {
+	        throw new \UnexpectedValueException('Incremental is not set.');
+        }
+
 		return $this->incremental;
 	}
 
