@@ -19,3 +19,20 @@ Result:
 	id,column,names
 	"1","row","data"
 ```
+
+## Development
+
+Clone this repository and init the workspace with following command:
+
+```
+git clone https://github.com/keboola/php-csvtable.git
+cd php-csvtable
+docker-compose build
+docker-compose run --rm dev composer install --no-scripts
+```
+
+Run the test suite using this command:
+
+```
+docker-compose run --rm dev composer tests
+```
