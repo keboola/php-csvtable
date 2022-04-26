@@ -26,7 +26,7 @@ parameters:
 			path: src/Keboola/CsvTable/Table.php
 
 		-
-			message: "#^Method Keboola\\\\CsvTable\\\\Table\\:\\:getPrimaryKey\\(\\) should return array\\|string but returns array\\|string\\|null\\.$#"
+			message: "#^Method Keboola\\\\CsvTable\\\\Table\\:\\:getPrimaryKey\\(\\) should return array\\|string but returns array\\<string\\>\\|string\\|null\\.$#"
 			count: 1
 			path: src/Keboola/CsvTable/Table.php
 
@@ -47,11 +47,6 @@ parameters:
 
 		-
 			message: "#^Property Keboola\\\\CsvTable\\\\Table\\:\\:\\$header type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Keboola/CsvTable/Table.php
-
-		-
-			message: "#^Property Keboola\\\\CsvTable\\\\Table\\:\\:\\$primaryKey type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Keboola/CsvTable/Table.php
 

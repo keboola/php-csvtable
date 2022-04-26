@@ -14,13 +14,10 @@ use UnexpectedValueException;
  */
 class Table extends CsvWriter
 {
-    /**
-     * @var array
-     */
     protected array $attributes = [];
 
     /**
-     * @var array
+     * @var string[]
      */
     protected array $primaryKey;
 
