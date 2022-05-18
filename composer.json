@@ -21,7 +21,7 @@
 		"phpunit/phpunit": ">=7.5"
 	},
 	"scripts": {
-		"phpstan": "phpstan analyse ./src ./tests --level=max --no-progress -c phpstan.neon",
+		"phpstan": "phpstan analyse ./src ./tests --level=max --no-progress",
 		"phpcs": "phpcs -n --ignore=vendor --extensions=php .",
 		"phpcbf": "phpcbf -n --ignore=vendor --extensions=php .",
 		"phplint": "parallel-lint -j 10 --exclude vendor .",

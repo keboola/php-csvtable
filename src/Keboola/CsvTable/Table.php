@@ -14,6 +14,9 @@ use UnexpectedValueException;
  */
 class Table extends CsvWriter
 {
+    /**
+     * @var array<string, mixed>
+     */
     protected array $attributes = [];
 
     /**
@@ -28,10 +31,16 @@ class Table extends CsvWriter
     protected ?bool $incremental = null;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected array $header = [];
 
+    /**
+     * @param array<int, string> $header
+     * @throws \Keboola\Csv\Exception
+     * @throws \Keboola\Csv\InvalidArgumentException
+     * @throws \Exception
+     */
     public function __construct(
         string $name,
         array $header = [],
@@ -63,21 +72,33 @@ class Table extends CsvWriter
         return $this->fileName;
     }
 
+    /**
+     * @return string[]
+     */
     public function getHeader(): array
     {
         return $this->header;
     }
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     public function addAttributes(array $attributes): void
     {
         $this->attributes = array_replace($this->attributes, $attributes);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getAttributes(): array
     {
         return $this->attributes;
@@ -104,9 +125,9 @@ class Table extends CsvWriter
 
     /**
      * @brief Set a primaryKey (to combine multiple columns, use array or comma separated col names)
-     * @param string|array $primaryKey
+     * @param string|string[] $primaryKey
      */
-    public function setPrimaryKey($primaryKey): void
+    public function setPrimaryKey(string|array $primaryKey): void
     {
         if (!is_array($primaryKey)) {
             $primaryKey = explode(',', $primaryKey);
@@ -116,9 +137,9 @@ class Table extends CsvWriter
     }
 
     /**
-     * @return string|array
+     * @return string|string[]|null
      */
-    public function getPrimaryKey(bool $asArray = false)
+    public function getPrimaryKey(bool $asArray = false): string|array|null
     {
         return empty($this->primaryKey)
             ? null
